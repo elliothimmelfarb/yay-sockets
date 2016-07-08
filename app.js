@@ -15,18 +15,26 @@ let server = http.createServer(app);
 
 let io = require('socket.io')(server);
 
+let connections = 0;
+
 io.on('connection', function(socket) {
   // triggered when a new client connects
   // socket is the connection to that client
 
   console.log('Socket connected.');
+  console.log(`Clients connected: ${++connections}`);
 
   socket.on('disconnect', function() {
     console.log('Disconnect');
+    console.log(`Clients connected: ${--connections}`);
   });
 
-});
+  socket.on('sendMessage', function(data) {
+    console.log(data);
+    io.emit('newMessage', data.message);
+  })
 
+});
 
 server.listen(PORT, err => {
   console.log(err || `Server listening on port ${PORT}`);
@@ -47,7 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', require('./routes/api'));
 
 app.get('/', (req, res) => {
-  res.render('index', {title: 'Fullstack Template'});
+  res.render('index', {title: 'Simple Socket Chat'});
 });
 
 // catch 404 and forward to error handler

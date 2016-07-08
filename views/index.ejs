@@ -23,7 +23,19 @@
   <div class="container">
     <h1><%= title %></h1>
 
-    <div ui-view></div>
+    <div class="row">
+      <div class="col-xs-12">
+        <input type="text" id='message'>
+        <button class='btn btn-default' type="button" id='sendButton'>Send</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <ul id='chat'>
+          
+        </ul>
+      </div>
+    </div>
 
   </div>
 </body>
